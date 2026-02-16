@@ -6,9 +6,9 @@ from numpy.core import overrides
 import torch
 from tqdm import tqdm
 from sklearn import metrics
-import MITPA
+import DART
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 
 class Coach:
@@ -21,7 +21,7 @@ class Coach:
         self.scheduler = sched
         self.args = args
         if args.log_in_comet:
-            self.experiment = MITPA.Logger()
+            self.experiment = DART.Logger()
 
         self.dataset_label_dict = {
             "iemocap": {"hap": 0, "sad": 1, "neu": 2, "ang": 3, "exc": 4, "fru": 5},

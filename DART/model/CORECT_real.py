@@ -8,9 +8,9 @@ from .CrossmodalNet import CrossmodalNet
 from .GraphModel import GraphModel
 from .functions import multi_concat, feature_packing
 from .MMAT import MMT, MMTLayer, MMAttention
-import MITPA
+import DART
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 class CORECT_real(nn.Module):
     def __init__(self, args):

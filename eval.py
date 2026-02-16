@@ -9,9 +9,9 @@ import numpy as np
 from sklearn import metrics
 from tqdm import tqdm
 
-import MITPA
+import DART
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 
 def load_pkl(file):
@@ -38,7 +38,7 @@ def main(args):
             "mosei": ["Negative", "Positive"],
         }
     
-    testset = MITPA.Dataset(data["test"], stored_args)
+    testset = DART.Dataset(data["test"], stored_args)
     idx_labels = dataset_label_dict[args.dataset]
 
     test = True

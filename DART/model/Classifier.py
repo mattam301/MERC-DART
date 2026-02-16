@@ -3,9 +3,9 @@ import torch.nn as nn
 
 import torch.nn.functional as F
 
-import MITPA
+import DART
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 
 class Classifier(nn.Module):

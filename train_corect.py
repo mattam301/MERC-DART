@@ -3,13 +3,13 @@ from comet_ml import Experiment, Optimizer
 import argparse
 import torch
 import os
-import MITPA
+import DART
 os.environ['CUDA_LAUNCH_BLOCKING']="1"
 os.environ['TORCH_USE_CUDA_DSA'] = "1"
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 def main(args):
-    MITPA.utils.set_seed(args.seed)
+    DART.utils.set_seed(args.seed)
 
     if args.emotion:
         args.data = os.path.join(
@@ -19,31 +19,31 @@ def main(args):
             "data_" + args.dataset + ".pkl",
         )
         log.debug("Loading data from '%s'." % args.data)
-        data = MITPA.utils.load_mosei(args.emotion)
+        data = DART.utils.load_mosei(args.emotion)
     else:
         args.data = os.path.join(
             args.data_root, args.data_dir_path, args.dataset, "data_" + args.dataset + ".pkl"
         )
         log.debug("Loading data from '%s'." % args.data)
-        data = MITPA.utils.load_pkl(args.data)
+        data = DART.utils.load_pkl(args.data)
 
     # load data
     
     log.info("Loaded data.")
 
-    trainset = MITPA.Dataset(data["train"], args)
-    devset = MITPA.Dataset(data["dev"], args)
-    testset = MITPA.Dataset(data["test"], args)
+    trainset = DART.Dataset(data["train"], args)
+    devset = DART.Dataset(data["dev"], args)
+    testset = DART.Dataset(data["test"], args)
 
     log.debug("Building model...")
     
     model_file = args.data_root + "model_checkpoints/model.pt"
-    model = MITPA.CORECT_real(args).to(args.device)
-    opt = MITPA.Optim(args.learning_rate, args.max_grad_value, args.weight_decay)
+    model = DART.CORECT_real(args).to(args.device)
+    opt = DART.Optim(args.learning_rate, args.max_grad_value, args.weight_decay)
     opt.set_parameters(model.parameters(), args.optimizer)
     sched = opt.get_scheduler(args.scheduler)
 
-    coach = MITPA.Coach(trainset, devset, testset, model, opt, sched, args)
+    coach = DART.Coach(trainset, devset, testset, model, opt, sched, args)
     if not args.from_begin:
         ckpt = torch.load(model_file)
         coach.load_ckpt(ckpt)
@@ -318,7 +318,7 @@ if __name__ == "__main__":
     log.debug(args)
 
     if args.log_in_comet:
-        experiment = MITPA.Logger(
+        experiment = DART.Logger(
                 api_key=args.comet_api_key,
                 project_name="corect",
                 workspace=args.comet_workspace,

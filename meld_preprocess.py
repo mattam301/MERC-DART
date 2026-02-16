@@ -6,7 +6,7 @@ import pickle
 import os
 import numpy as np
 from sentence_transformers import SentenceTransformer
-import MITPA
+import DART
 
 parser = argparse.ArgumentParser(description="preprocess.py")
 parser.add_argument(
@@ -28,13 +28,13 @@ parser.add_argument(
 parser.add_argument("--seed", type=int, default=24, help="Random seed.")
 args = parser.parse_args()
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 sbert_model = SentenceTransformer("paraphrase-distilroberta-base-v1")
 seed = 42
 
 
 def get_meld():
-    MITPA.utils.set_seed(args.seed)
+    DART.utils.set_seed(args.seed)
 
     if args.dataset == "meld":
         (
@@ -112,7 +112,7 @@ def get_meld():
 train, dev, test = get_meld()
 
 data = {"train": train, "dev": dev, "test": test}
-MITPA.utils.save_pkl(data, "/home/tuanma/tuanma/LPE_ERC/data/meld/data_meld.pkl")
+DART.utils.save_pkl(data, "/home/tuanma/tuanma/LPE_ERC/data/meld/data_meld.pkl")
 
 # log.info("number of train samples: {}".format(len(train)))
 # log.info("number of dev samples: {}".format(len(dev)))

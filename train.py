@@ -3,13 +3,13 @@ from comet_ml import Experiment, Optimizer
 import argparse
 import torch
 import os
-import MITPA
+import DART
 os.environ['CUDA_LAUNCH_BLOCKING']="1"
 os.environ['TORCH_USE_CUDA_DSA'] = "1"
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
 def main(args):
-    MITPA.utils.set_seed(args.seed)
+    DART.utils.set_seed(args.seed)
 
     if args.emotion:
         args.data = os.path.join(
@@ -19,27 +19,27 @@ def main(args):
             "data_" + args.dataset + "_" + args.emotion + ".pkl",
         )
         log.debug("Loading data from '%s'." % args.data)
-        data = MITPA.utils.load_mosei(args.emotion)
+        data = DART.utils.load_mosei(args.emotion)
     else:
         args.data = os.path.join(
             args.data_root, args.data_dir_path, args.dataset, "data_" + args.dataset + ".pkl"
         )
         log.debug("Loading data from '%s'." % args.data)
-        data = MITPA.utils.load_pkl(args.data)
+        data = DART.utils.load_pkl(args.data)
 
     # load data
     
     log.info("Loaded data.")
 
     if args.dataset != "iemocap_gs":
-        trainset = MITPA.Dataset(data["train"], args)
+        trainset = DART.Dataset(data["train"], args)
         print("Inspecting training set statistics...")
         # trainset.print_statistics()
         # trainset.print_statistics(window_size=10)
-        devset = MITPA.Dataset(data["dev"], args)
+        devset = DART.Dataset(data["dev"], args)
         # print("Inspecting dev set statistics...")
         # devset.print_statistics(window_size=10)
-        testset = MITPA.Dataset(data["test"], args)
+        testset = DART.Dataset(data["test"], args)
         # print("Inspecting testing set statistics...")
         # testset.print_statistics()
         # testset.print_statistics(window_size=10)
@@ -57,19 +57,19 @@ def main(args):
         dev_samples = all_train_samples[split_idx:]
 
         # Now create datasets
-        trainset = MITPA.Dataset(new_train_samples, args)
-        devset = MITPA.Dataset(dev_samples, args)
-        testset = MITPA.Dataset(data["test"], args)
+        trainset = DART.Dataset(new_train_samples, args)
+        devset = DART.Dataset(dev_samples, args)
+        testset = DART.Dataset(data["test"], args)
 
     log.debug("Building model...")
     
     model_file = "model_checkpoints/model.pt"
-    model = MITPA.MITPA(args).to(args.device)
-    opt = MITPA.Optim(args.learning_rate, args.max_grad_value, args.weight_decay)
+    model = DART.DART(args).to(args.device)
+    opt = DART.Optim(args.learning_rate, args.max_grad_value, args.weight_decay)
     opt.set_parameters(model.parameters(), args.optimizer)
     sched = opt.get_scheduler(args.scheduler)
 
-    coach = MITPA.Coach(trainset, devset, testset, model, opt, sched, args)
+    coach = DART.Coach(trainset, devset, testset, model, opt, sched, args)
     if not args.from_begin:
         ckpt = torch.load(model_file)
         coach.load_ckpt(ckpt)
@@ -352,7 +352,7 @@ if __name__ == "__main__":
     log.debug(args)
 
     if args.log_in_comet:
-        experiment = MITPA.Logger(
+        experiment = DART.Logger(
                 api_key=args.comet_api_key,
                 project_name="mitpa",
                 workspace=args.comet_workspace,

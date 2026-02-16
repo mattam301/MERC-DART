@@ -8,13 +8,13 @@ from .CrossmodalNet import CrossmodalNet
 from .GraphModel import GraphModel
 from .functions import multi_concat, feature_packing
 from .MMAT import MMT, MMTLayer, MMAttention
-import MITPA
+import DART
 
-log = MITPA.utils.get_logger()
+log = DART.utils.get_logger()
 
-class MITPA(nn.Module):
+class DART(nn.Module):
     def __init__(self, args):
-        super(MITPA, self).__init__()
+        super(DART, self).__init__()
 
         self.args = args
         self.wp = args.wp
