@@ -1,11 +1,11 @@
-# MERC-MITPA
+# MERC-DART
 
-**MERC-MITPA**: Implementation for MI-TPA, a graph-based and multimodal framework for the emotion recognition task.
+**DART**: Distance-Aware Temporal Position Modeling with Scalable Multi-Way Multimodal Interaction for Emotion Recognition in Conversations
 
 ---
 
 ## Overview
-MERC-MITPA is a deep learning framework that leverages graph-based and multimodal approaches for emotion recognition. The framework integrates textual, acoustic, and visual modalities with graph structures to enhance performance on emotion classification tasks.
+MERC-DART is a deep learning framework that leverages graph-based and multimodal approaches for emotion recognition. The framework integrates textual, acoustic, and visual modalities with graph structures to enhance performance on emotion classification tasks.
 
 ---
 
@@ -63,7 +63,7 @@ This is the results on IEMOCAP(4-way) dataset
 | I-GCN       | 50.00  | **83.80** | 59.30   | 64.60  | 74.30   | 59.00      | 65.40    | 65.50    | 11.06   |
 | COGMEN      | 55.76  | 80.17  | 63.21   | 61.69  | 74.91   | 63.90      | 67.27    | 67.04    | 7.69    |
 | CORECT      | 59.30  | 80.53  | 66.94   | 69.59  | 72.69   | **68.50**  | 70.02    | 69.93    | 5.90    |
-| **MI-TPA (Ours)** | |   |   |  | |       | **72.19 | **72.09** |  |
+| **DART (Ours)** | |   |   |  | |       | **72.19 | **72.09** |  |
 
 ---
 
@@ -88,7 +88,7 @@ This is the results on IEMOCAP(4-way) dataset
 ---
 
 ## Citation
-If you use MERC-MITPA in your research, please cite:
+If you use MERC-DART in your research, please cite:
 ```
 
 ```
